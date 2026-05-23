@@ -1,0 +1,47 @@
+# Projektdokumentation: Canon EOS R5 Fernsteuerung
+
+## 1. Projektübersicht
+Dieses Projekt ermöglicht die Fernsteuerung einer Canon EOS R5 Kamera über USB mittels C# und Windows Forms (.NET Framework 4.8). Es nutzt das offizielle Canon EDSDK (EOS Digital Software Development Kit), um Kameraeinstellungen (wie z. B. den ISO-Wert) auszulesen und zu verändern sowie die Kamera auszulösen.
+
+Da das originale Canon-SDK in der Programmiersprache C++ geschrieben ist, nutzt dieses Projekt eine zweigeteilte Architektur: Einen C#-Wrapper (EDSDKLib) und die nativen Treiber (EDSDK_64).
+
+## 2. Die DLL-Architektur
+
+### A. Der C#-Wrapper (EDSDKLib)
+Ein C#-Projekt, das als Brücke fungiert. Es übersetzt unsere objektorientierten C#-Befehle in native C++ Befehle, die Canon versteht. Dieses Projekt wird in Visual Studio als Verweis (Reference) in das Haupt-GUI-Projekt eingebunden.
+
+### B. Die nativen Canon C++ Treiber (EDSDK.dll & EdsImage.dll)
+Die originalen "Motoren" von Canon. Die EOS R5 kommuniziert ausschließlich über die 64-Bit-Version dieser Dateien. Diese Dateien dürfen NIEMALS in Visual Studio als Verweis hinzugefügt werden! Sie müssen stattdessen zur Laufzeit einfach im selben Ordner wie die fertige .exe-Datei liegen (im bin-Ordner).
+
+## 3. Verzeichnisstruktur
+
+EOS_R5_RemoteGUI_Net48         (Hauptverzeichnis)
+│
+├── EDSDK_64                   (Die 64-Bit C++ Treiber von Canon)
+│   ├── EDSDK.dll
+│   └── EdsImage.dll
+│
+├── EDSDKLib                   (Das C# Wrapper-Projekt)
+│   ├── API
+│   ├── SDK
+│   └── EDSDKLib.csproj
+│
+└── EOS_R5_RemoteGUI           (Das Windows Forms Hauptprogramm)
+    └── bin\Debug\net48
+        ├── EOS_R5_RemoteGUI.exe
+        ├── EDSDKLib.dll
+        ├── EDSDK.dll          (!!! MANUELL HIERHIN KOPIERT !!!)
+        └── EdsImage.dll       (!!! MANUELL HIERHIN KOPIERT !!!)
+
+## 4. Setup & Deployment
+Wenn das Projekt neu eingerichtet wird, gehe wie folgt vor:
+
+1. Projekt kompilieren: In Visual Studio auf "Starten" oder "Projektmappe erstellen" klicken.
+2. Native DLLs kopieren: Den Ordner EDSDK_64 öffnen und die DLLs markieren und kopieren.
+3. DLLs einfügen: Zum Ordner bin\Debug\net48\ (neben deine .exe) navigieren und die kopierten DLLs dort einfügen.
+4. Ausführen: Das Programm starten. *Wichtig: Das offizielle "Canon EOS Utility" darf währenddessen nicht im Hintergrund laufen!*
+
+## 5. Wichtige C#-Konzepte
+* Der Pointer (IntPtr): Die Speicheradresse der Kamera, an die Befehle gesendet werden (z. B. camera.Reference).
+* Feste Eigenschafts-IDs: Einstellungen werden über Hexadezimal-Zahlen adressiert (z. B. 0x00000210 für die ISO).
+* Hexadezimale Werte: Auch die Werte selbst sind codiert (ISO 100 ist z. B. 0x48).

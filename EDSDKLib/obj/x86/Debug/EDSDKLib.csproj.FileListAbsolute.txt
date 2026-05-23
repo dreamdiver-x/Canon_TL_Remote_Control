@@ -1,0 +1,6 @@
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\EDSDKLib\bin\Debug\EDSDKLib.dll
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\EDSDKLib\bin\Debug\EDSDKLib.pdb
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\EDSDKLib\obj\x86\Debug\EDSDKLib.csproj.AssemblyReference.cache
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\EDSDKLib\obj\x86\Debug\EDSDKLib.csproj.CoreCompileInputs.cache
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\EDSDKLib\obj\x86\Debug\EDSDKLib.dll
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\EDSDKLib\obj\x86\Debug\EDSDKLib.pdb
