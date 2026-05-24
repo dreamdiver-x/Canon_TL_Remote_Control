@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EOS_R5_RemoteGUI", "EOS_R5_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDSDKLib", "..\EDSDKLib\EDSDKLib.csproj", "{15E99248-6161-46A4-9183-609CA62406A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TL_CSV_Configurator", "TL_CSV_Configurator\TL_CSV_Configurator.csproj", "{878EEEA3-F48E-4DAC-996B-3999065C8056}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -20,8 +22,15 @@ Global
 		{15E99248-6161-46A4-9183-609CA62406A6}.Debug|x64.Build.0 = Debug|x86
 		{15E99248-6161-46A4-9183-609CA62406A6}.Release|x64.ActiveCfg = Release|x86
 		{15E99248-6161-46A4-9183-609CA62406A6}.Release|x64.Build.0 = Release|x86
+		{878EEEA3-F48E-4DAC-996B-3999065C8056}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{878EEEA3-F48E-4DAC-996B-3999065C8056}.Debug|x64.Build.0 = Debug|Any CPU
+		{878EEEA3-F48E-4DAC-996B-3999065C8056}.Release|x64.ActiveCfg = Release|Any CPU
+		{878EEEA3-F48E-4DAC-996B-3999065C8056}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD2F3015-7155-4B69-A042-CE161EFDFA7B}
 	EndGlobalSection
 EndGlobal

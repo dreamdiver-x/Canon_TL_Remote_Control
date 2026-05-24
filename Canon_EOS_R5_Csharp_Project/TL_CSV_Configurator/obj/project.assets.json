@@ -1,0 +1,82 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0-windows7.0": {}
+  },
+  "libraries": {},
+  "projectFileDependencyGroups": {
+    "net8.0-windows7.0": []
+  },
+  "packageFolders": {
+    "C:\\Users\\flori\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\TL_CSV_Configurator\\TL_CSV_Configurator.csproj",
+      "projectName": "TL_CSV_Configurator",
+      "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\TL_CSV_Configurator\\TL_CSV_Configurator.csproj",
+      "packagesPath": "C:\\Users\\flori\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\TL_CSV_Configurator\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\flori\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0-windows"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net8.0-windows7.0": {
+        "targetAlias": "net8.0-windows",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WindowsForms": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.314/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

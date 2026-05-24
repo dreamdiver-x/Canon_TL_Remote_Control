@@ -1,0 +1,17 @@
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\bin\Debug\net8.0-windows\TL_CSV_Configurator.exe
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\bin\Debug\net8.0-windows\TL_CSV_Configurator.deps.json
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\bin\Debug\net8.0-windows\TL_CSV_Configurator.runtimeconfig.json
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\bin\Debug\net8.0-windows\TL_CSV_Configurator.dll
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\bin\Debug\net8.0-windows\TL_CSV_Configurator.pdb
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.Form1.resources
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.csproj.GenerateResource.cache
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.AssemblyInfoInputs.cache
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.AssemblyInfo.cs
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.csproj.CoreCompileInputs.cache
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.sourcelink.json
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.dll
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\refint\TL_CSV_Configurator.dll
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.pdb
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\TL_CSV_Configurator.genruntimeconfig.cache
+C:\Users\flori\OneDrive\Dokumente\repo\Winforms\EOS_R5_RemoteGUI_Net48\Canon_TL_Remote_Control\Canon_EOS_R5_Csharp_Project\TL_CSV_Configurator\obj\Debug\net8.0-windows\ref\TL_CSV_Configurator.dll
