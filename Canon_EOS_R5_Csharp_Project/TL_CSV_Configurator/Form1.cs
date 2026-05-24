@@ -11,7 +11,7 @@ namespace TL_CSV_Configurator
     {
         private bool isInitializing = true;
 
-        // Alle Belichtungszeiten exakt in 1/3-Blenden-Schritten sortiert (schnell -> langsam)
+        // Alle Belichtungszeiten exakt in 1/3-Blenden-Schritten sortiert
         private readonly string[] orderedTvs = {
             "1/8000", "1/6400", "1/5000", "1/4000", "1/3200", "1/2500", "1/2000", "1/1600", "1/1250",
             "1/1000", "1/800", "1/640", "1/500", "1/400", "1/320", "1/250", "1/200", "1/160", "1/125",
@@ -24,11 +24,111 @@ namespace TL_CSV_Configurator
         public Form1()
         {
             InitializeComponent();
+            SetupPerfectLayout(); // <-- Die ultimative Layout-Lösung!
             SetupDataGridView();
             SetupBracketingUI();
             SetDefaultTimes();
             isInitializing = false;
             UpdatePhaseTimes();
+        }
+
+        private void SetupPerfectLayout()
+        {
+            // 1. Flexibles Fenster erlauben und Mindestgröße setzen
+            this.MinimumSize = new Size(1100, 750);
+            this.FormBorderStyle = FormBorderStyle.Sizable;
+            this.MaximizeBox = true;
+
+            // 2. Wir suchen den linken Rand (Margin) des Fensters, meist 12 oder 20 Pixel
+            int margin = 20;
+            foreach (Control c in this.Controls)
+            {
+                if (c is GroupBox && c.Left > 0) { margin = c.Left; break; }
+            }
+
+            // 3. Jedes Haupt-Control (GroupBoxen) auf die volle Breite zwingen
+            foreach (Control c in this.Controls)
+            {
+                if (c is GroupBox || c == dgvPhases || c == picTimeline)
+                {
+                    // Erziele Symmetrie: Die Box wird exakt so breit, dass der Rand rechts gleich wie links ist!
+                    c.Width = this.ClientSize.Width - c.Left - margin;
+                    c.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+                    // Tabellen und Timeline INNERHALB der GroupBoxen ebenfalls anpassen
+                    if (c is GroupBox)
+                    {
+                        foreach (Control child in c.Controls)
+                        {
+                            if (child == dgvPhases || child == picTimeline)
+                            {
+                                child.Width = c.ClientSize.Width - (child.Left * 2);
+                                child.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Bei Buttons: Bottom-Anker deaktivieren, da wir vertikal manuell verschieben
+                    c.Anchor = (c.Anchor & ~AnchorStyles.Bottom) | AnchorStyles.Top;
+                }
+            }
+
+            // 4. Vertikale Logik im Resize Event (Verhindert Überlappen von Boxen!)
+            int baseFormHeight = this.ClientSize.Height;
+
+            // Finde heraus, in welcher Box Grid und Timeline liegen
+            Control gridContainer = dgvPhases.Parent != null && dgvPhases.Parent != this ? dgvPhases.Parent : dgvPhases;
+            Control timelineContainer = picTimeline.Parent != null && picTimeline.Parent != this ? picTimeline.Parent : picTimeline;
+
+            int originalGridHeight = gridContainer.Height;
+            int originalTimelineHeight = timelineContainer.Height;
+
+            // Speichere die originalen Y-Positionen aller Elemente
+            Dictionary<Control, int> originalTops = new Dictionary<Control, int>();
+            foreach (Control c in this.Controls) { originalTops[c] = c.Top; }
+
+            this.Resize += (s, e) =>
+            {
+                if (this.ClientSize.Height < 400) return;
+
+                int addedHeight = this.ClientSize.Height - baseFormHeight;
+                if (addedHeight < 0) return;
+
+                // Wir verteilen die neue gewonnene Höhe zu 50% an die Tabelle und 50% an die Timeline
+                int extraForGrid = addedHeight / 2;
+                int extraForTimeline = addedHeight - extraForGrid;
+
+                gridContainer.Height = originalGridHeight + extraForGrid;
+                timelineContainer.Height = originalTimelineHeight + extraForTimeline;
+
+                // Alle Elemente auf dem Formular werden nun intelligent nach unten geschoben
+                foreach (Control c in this.Controls)
+                {
+                    // Die oberste Grid-Box bleibt natürlich, wo sie ist
+                    if (c == gridContainer) continue;
+
+                    // Lag dieses Element ursprünglich UNTERHALB der Tabelle? (z.B. HDR Box, Timeline)
+                    if (originalTops[c] >= originalTops[gridContainer] + originalGridHeight)
+                    {
+                        int shift = extraForGrid;
+
+                        // Lag dieses Element sogar UNTERHALB der Timeline? (z.B. der CSV-Button ganz unten)
+                        if (originalTops[c] >= originalTops[timelineContainer] + originalTimelineHeight)
+                        {
+                            shift += extraForTimeline;
+                        }
+                        c.Top = originalTops[c] + shift;
+                    }
+                }
+                picTimeline.Invalidate();
+            };
+
+            // 5. Fenster zum Start etwas breiter und höher machen.
+            // Löst das Resize aus: Die Boxen schießen in die Breite, die Timeline in die Höhe!
+            this.Width += 150;
+            this.Height += 150;
         }
 
         private void SetupBracketingUI()
@@ -155,7 +255,6 @@ namespace TL_CSV_Configurator
             UpdatePhaseTimes();
         }
 
-        // Parst die Belichtungszeit intelligent zu Millisekunden (Sicherheit gegen Kamera-Blockade)
         private int GetTvMs(string tv)
         {
             if (tv.EndsWith("\""))
@@ -169,16 +268,15 @@ namespace TL_CSV_Configurator
                 if (parts.Length == 2 && double.TryParse(parts[1], out double div))
                     return (int)(1000 / div);
             }
-            return 50; // Fallback
+            return 50;
         }
 
-        // Generiert die Liste der Zeiten für einen Bracketing-Zyklus
         private List<string> GetBracketSequence()
         {
             List<string> seq = new List<string>();
             int startIndex = Array.IndexOf(orderedTvs, cmbBracketMin.Text);
             int endIndex = Array.IndexOf(orderedTvs, cmbBracketMax.Text);
-            int step = (int)numBracketEV.Value * 3; // 1 EV = 3 Index-Schritte in der 1/3-Blenden-Reihe
+            int step = (int)numBracketEV.Value * 3;
 
             if (startIndex == -1 || endIndex == -1 || startIndex > endIndex) return seq;
 
@@ -193,7 +291,8 @@ namespace TL_CSV_Configurator
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            g.Clear(Color.White);
+
+            g.Clear(Color.FromArgb(215, 220, 225));
 
             if (dgvPhases.Rows.Count < 5) return;
 
@@ -203,9 +302,20 @@ namespace TL_CSV_Configurator
 
             if (totalFinsternis.TotalSeconds <= 0) return;
 
-            float width = picTimeline.Width - 20;
+            // Ränder für das Layout innerhalb der PictureBox
+            float leftMargin = 30;
+            float rightMargin = 80;
+            float width = picTimeline.Width - (leftMargin + rightMargin);
             float height = picTimeline.Height;
-            float currentX = 10;
+            float currentX = leftMargin;
+
+            // Dynamische Balken-Höhe: Oben 55 Pixel reservieren, unten 25 Pixel Puffer
+            float barTop = 55;
+            float barBottom = height - 25;
+
+            if (barBottom <= barTop + 20) barBottom = barTop + 20;
+
+            float barHeight = barBottom - barTop;
 
             Color[] phaseColors = { Color.LightBlue, Color.Gold, Color.DarkSlateBlue, Color.Gold, Color.LightBlue };
             string[] phaseNames = { "Vorlauf", "Partiell 1", "Totalität", "Partiell 2", "Nachlauf" };
@@ -224,22 +334,37 @@ namespace TL_CSV_Configurator
 
                 float phaseWidth = (float)(duration.TotalSeconds / totalFinsternis.TotalSeconds) * width;
 
-                RectangleF rect = new RectangleF(currentX, 25, phaseWidth, height - 50);
+                // 1. BALKEN ZEICHNEN
+                RectangleF rect = new RectangleF(currentX, barTop, phaseWidth, barHeight);
                 using (Brush b = new SolidBrush(phaseColors[i])) g.FillRectangle(b, rect);
-                g.DrawRectangle(Pens.Black, currentX, 25, phaseWidth, height - 50);
+                g.DrawRectangle(Pens.Black, currentX, barTop, phaseWidth, barHeight);
 
-                RectangleF topTextRect = new RectangleF(currentX + 2, 8, Math.Max(0, phaseWidth - 4), 15);
+                // 2. UHRZEIT AN DER GRENZE (45° gedreht)
+                string startTimeStr = row.Cells["colStart"].Value?.ToString();
+                if (!string.IsNullOrEmpty(startTimeStr))
+                {
+                    g.DrawLine(Pens.Black, currentX, barTop, currentX, barTop - 5);
+                    using (Font fTime = new Font("Segoe UI", 9, FontStyle.Regular))
+                    {
+                        g.TranslateTransform(currentX, barTop - 5);
+                        g.RotateTransform(-45);
+                        g.DrawString(startTimeStr, fTime, Brushes.Black, 2, -14);
+                        g.ResetTransform();
+                    }
+                }
+
+                // 3. PHASEN-NAME
+                RectangleF topTextRect = new RectangleF(currentX + 2, barTop + 4, Math.Max(0, phaseWidth - 4), 15);
                 using (Font f = new Font("Segoe UI", 8, FontStyle.Bold))
                 using (Brush bText = new SolidBrush(textColors[i]))
                 {
                     g.DrawString(phaseNames[i], f, bText, topTextRect, sf);
                 }
 
+                // 4. BILDERANZAHL & STRICHE
                 if (int.TryParse(row.Cells["colInterval"].Value?.ToString(), out int intervalMs) && intervalMs > 0)
                 {
                     int shots = 0;
-
-                    // Spezielle Berechnung für Totalitäts-Bracketing
                     if (i == 2 && chkEnableBracketing.Checked)
                     {
                         var seq = GetBracketSequence();
@@ -247,8 +372,7 @@ namespace TL_CSV_Configurator
                         {
                             int seqTimeMs = 0;
                             foreach (var tv in seq) seqTimeMs += GetTvMs(tv) + (int)numBracketWait.Value;
-                            seqTimeMs += intervalMs; // Das Hauptintervall nach dem Zyklus
-
+                            seqTimeMs += intervalMs;
                             int cycles = (int)(duration.TotalMilliseconds / seqTimeMs);
                             shots = cycles * seq.Count;
                         }
@@ -258,14 +382,6 @@ namespace TL_CSV_Configurator
                         shots = (int)(duration.TotalMilliseconds / intervalMs);
                     }
 
-                    RectangleF bottomTextRect = new RectangleF(currentX + 2, height - 22, Math.Max(0, phaseWidth - 4), 15);
-                    using (Font f = new Font("Segoe UI", 8, FontStyle.Bold))
-                    using (Brush bText = new SolidBrush(textColors[i]))
-                    {
-                        g.DrawString($"{shots} Bilder", f, bText, bottomTextRect, sf);
-                    }
-
-                    // Zeichnet für jedes Bild einen winzigen Strich zur Visualisierung
                     if (shots > 0)
                     {
                         float stepX = phaseWidth / shots;
@@ -276,21 +392,70 @@ namespace TL_CSV_Configurator
                                 for (int s = 0; s < shots; s++)
                                 {
                                     float lineX = currentX + (s * stepX);
-                                    g.DrawLine(p, lineX, 25, lineX, 35);
-                                    g.DrawLine(p, lineX, height - 35, lineX, height - 25);
+                                    g.DrawLine(p, lineX, barTop, lineX, barTop + 10);
+                                    g.DrawLine(p, lineX, barBottom - 10, lineX, barBottom);
                                 }
                             }
                         }
                         else
                         {
-                            using (Brush b = new SolidBrush(Color.FromArgb(50, 0, 0, 0))) g.FillRectangle(b, currentX, 25, phaseWidth, 10);
+                            using (Brush b = new SolidBrush(Color.FromArgb(50, 0, 0, 0)))
+                                g.FillRectangle(b, currentX, barTop, phaseWidth, 10);
+                        }
+                    }
+
+                    // --- SMART TEXT LAYOUT ---
+                    string shotText = $"{shots} Bilder";
+                    using (Font f = new Font("Segoe UI", 8, FontStyle.Bold))
+                    using (Brush bText = new SolidBrush(textColors[i]))
+                    {
+                        SizeF textSize = g.MeasureString(shotText, f);
+
+                        if (textSize.Width <= phaseWidth - 4)
+                        {
+                            RectangleF bottomTextRect = new RectangleF(currentX + 2, barBottom - 18, Math.Max(0, phaseWidth - 4), 15);
+                            g.DrawString(shotText, f, bText, bottomTextRect, sf);
+                        }
+                        else
+                        {
+                            float maxAllowedHeight = barHeight - 20;
+
+                            if (textSize.Width > maxAllowedHeight)
+                            {
+                                shotText = $"{shots}";
+                                textSize = g.MeasureString(shotText, f);
+                            }
+
+                            if (textSize.Width <= maxAllowedHeight)
+                            {
+                                float textX = currentX + (phaseWidth / 2f) - (textSize.Height / 2f);
+                                float textY = barBottom - 5f;
+
+                                g.TranslateTransform(textX, textY);
+                                g.RotateTransform(-90);
+                                g.DrawString(shotText, f, bText, new PointF(0, 0));
+                                g.ResetTransform();
+                            }
                         }
                     }
                 }
 
                 currentX += phaseWidth;
             }
+
+            // 5. FINALE ENDZEIT
+            string finalTimeStr = dtpC4.Value.AddMinutes((double)numNachlauf.Value).ToString("HH:mm:ss");
+            g.DrawLine(Pens.Black, currentX, barTop, currentX, barTop - 5);
+            using (Font fTime = new Font("Segoe UI", 9, FontStyle.Regular))
+            {
+                g.TranslateTransform(currentX, barTop - 5);
+                g.RotateTransform(-45);
+                g.DrawString(finalTimeStr, fTime, Brushes.Black, 2, -14);
+                g.ResetTransform();
+            }
+
             sf.Dispose();
+            g.DrawRectangle(Pens.Gray, 0, 0, picTimeline.Width - 1, picTimeline.Height - 1);
         }
 
         private void btnGenerateCSV_Click(object sender, EventArgs e)
@@ -332,7 +497,6 @@ namespace TL_CSV_Configurator
                         string iso = row.Cells["colIso"].Value?.ToString() ?? "100";
                         string phaseName = row.Cells["colPhase"].Value?.ToString();
 
-                        // --- HDR BRACKETING FÜR PHASE 3 (Totalität) ---
                         if (i == 2 && chkEnableBracketing.Checked)
                         {
                             var bracketSeq = GetBracketSequence();
@@ -342,10 +506,9 @@ namespace TL_CSV_Configurator
                                 return;
                             }
 
-                            // Berechne wie lange ein kompletter Zyklus dauert
                             int seqTimeMs = 0;
                             foreach (var tv in bracketSeq) seqTimeMs += GetTvMs(tv) + (int)numBracketWait.Value;
-                            seqTimeMs += intervalMs; // Plus das generelle Intervall nach einem kompletten Zyklus
+                            seqTimeMs += intervalMs;
 
                             int cycles = (int)(duration.TotalMilliseconds / seqTimeMs);
 
@@ -357,16 +520,12 @@ namespace TL_CSV_Configurator
                                 for (int s = 0; s < bracketSeq.Count; s++)
                                 {
                                     string tv = bracketSeq[s];
-
-                                    // Der smarte Part: Füge die Belichtungszeit als Delay zur Pause hinzu!
                                     int calcWait = GetTvMs(tv) + ((s == bracketSeq.Count - 1) ? intervalMs : (int)numBracketWait.Value);
-
                                     sb.AppendLine($"0;{calcWait};{iso};{tv}");
                                     totalShots++;
                                 }
                             }
                         }
-                        // --- NORMALE PHASEN (ohne Bracketing) ---
                         else
                         {
                             string tv = row.Cells["colTv"].Value?.ToString() ?? "1/1000";
@@ -376,7 +535,6 @@ namespace TL_CSV_Configurator
 
                             for (int s = 0; s < shotsInPhase; s++)
                             {
-                                // Auch hier kleine Sicherheit: Belichtungszeit zur Pause addieren
                                 int safeInterval = intervalMs + GetTvMs(tv);
                                 sb.AppendLine($"0;{safeInterval};{iso};{tv}");
                                 totalShots++;

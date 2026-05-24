@@ -82,7 +82,7 @@
             // labelVorlauf
             // 
             this.labelVorlauf.AutoSize = true;
-            this.labelVorlauf.Location = new System.Drawing.Point(15, 35);
+            this.labelVorlauf.Location = new System.Drawing.Point(20, 35);
             this.labelVorlauf.Name = "labelVorlauf";
             this.labelVorlauf.Size = new System.Drawing.Size(99, 20);
             this.labelVorlauf.TabIndex = 0;
@@ -90,7 +90,7 @@
             // 
             // numVorlauf
             // 
-            this.numVorlauf.Location = new System.Drawing.Point(15, 58);
+            this.numVorlauf.Location = new System.Drawing.Point(20, 58);
             this.numVorlauf.Name = "numVorlauf";
             this.numVorlauf.Size = new System.Drawing.Size(60, 27);
             this.numVorlauf.TabIndex = 1;
@@ -100,7 +100,7 @@
             // 
             this.labelC1.AutoSize = true;
             this.labelC1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.labelC1.Location = new System.Drawing.Point(90, 35);
+            this.labelC1.Location = new System.Drawing.Point(140, 35);
             this.labelC1.Name = "labelC1";
             this.labelC1.Size = new System.Drawing.Size(84, 20);
             this.labelC1.TabIndex = 2;
@@ -110,7 +110,7 @@
             // 
             this.dtpC1.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this.dtpC1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpC1.Location = new System.Drawing.Point(90, 58);
+            this.dtpC1.Location = new System.Drawing.Point(140, 58);
             this.dtpC1.Name = "dtpC1";
             this.dtpC1.Size = new System.Drawing.Size(180, 27);
             this.dtpC1.TabIndex = 3;
@@ -120,7 +120,7 @@
             // 
             this.labelC2.AutoSize = true;
             this.labelC2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.labelC2.Location = new System.Drawing.Point(285, 35);
+            this.labelC2.Location = new System.Drawing.Point(330, 35);
             this.labelC2.Name = "labelC2";
             this.labelC2.Size = new System.Drawing.Size(84, 20);
             this.labelC2.TabIndex = 4;
@@ -130,7 +130,7 @@
             // 
             this.dtpC2.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this.dtpC2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpC2.Location = new System.Drawing.Point(285, 58);
+            this.dtpC2.Location = new System.Drawing.Point(330, 58);
             this.dtpC2.Name = "dtpC2";
             this.dtpC2.Size = new System.Drawing.Size(180, 27);
             this.dtpC2.TabIndex = 5;
@@ -140,7 +140,7 @@
             // 
             this.labelC3.AutoSize = true;
             this.labelC3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.labelC3.Location = new System.Drawing.Point(480, 35);
+            this.labelC3.Location = new System.Drawing.Point(520, 35);
             this.labelC3.Name = "labelC3";
             this.labelC3.Size = new System.Drawing.Size(84, 20);
             this.labelC3.TabIndex = 6;
@@ -150,7 +150,7 @@
             // 
             this.dtpC3.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this.dtpC3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpC3.Location = new System.Drawing.Point(480, 58);
+            this.dtpC3.Location = new System.Drawing.Point(520, 58);
             this.dtpC3.Name = "dtpC3";
             this.dtpC3.Size = new System.Drawing.Size(180, 27);
             this.dtpC3.TabIndex = 7;
@@ -160,7 +160,7 @@
             // 
             this.labelC4.AutoSize = true;
             this.labelC4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.labelC4.Location = new System.Drawing.Point(675, 35);
+            this.labelC4.Location = new System.Drawing.Point(710, 35);
             this.labelC4.Name = "labelC4";
             this.labelC4.Size = new System.Drawing.Size(84, 20);
             this.labelC4.TabIndex = 8;
@@ -170,7 +170,7 @@
             // 
             this.dtpC4.CustomFormat = "dd.MM.yyyy HH:mm:ss";
             this.dtpC4.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpC4.Location = new System.Drawing.Point(675, 58);
+            this.dtpC4.Location = new System.Drawing.Point(710, 58);
             this.dtpC4.Name = "dtpC4";
             this.dtpC4.Size = new System.Drawing.Size(180, 27);
             this.dtpC4.TabIndex = 9;
@@ -179,7 +179,7 @@
             // labelNachlauf
             // 
             this.labelNachlauf.AutoSize = true;
-            this.labelNachlauf.Location = new System.Drawing.Point(870, 35);
+            this.labelNachlauf.Location = new System.Drawing.Point(900, 35);
             this.labelNachlauf.Name = "labelNachlauf";
             this.labelNachlauf.Size = new System.Drawing.Size(110, 20);
             this.labelNachlauf.TabIndex = 10;
@@ -187,7 +187,7 @@
             // 
             // numNachlauf
             // 
-            this.numNachlauf.Location = new System.Drawing.Point(870, 58);
+            this.numNachlauf.Location = new System.Drawing.Point(900, 58);
             this.numNachlauf.Name = "numNachlauf";
             this.numNachlauf.Size = new System.Drawing.Size(60, 27);
             this.numNachlauf.TabIndex = 11;
@@ -248,7 +248,7 @@
             // lblBracketMin
             // 
             this.lblBracketMin.AutoSize = true;
-            this.lblBracketMin.Location = new System.Drawing.Point(150, 35);
+            this.lblBracketMin.Location = new System.Drawing.Point(140, 35);
             this.lblBracketMin.Name = "lblBracketMin";
             this.lblBracketMin.Size = new System.Drawing.Size(112, 20);
             this.lblBracketMin.TabIndex = 1;
@@ -259,7 +259,7 @@
             this.cmbBracketMin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBracketMin.Enabled = false;
             this.cmbBracketMin.FormattingEnabled = true;
-            this.cmbBracketMin.Location = new System.Drawing.Point(270, 32);
+            this.cmbBracketMin.Location = new System.Drawing.Point(260, 32);
             this.cmbBracketMin.Name = "cmbBracketMin";
             this.cmbBracketMin.Size = new System.Drawing.Size(100, 28);
             this.cmbBracketMin.TabIndex = 2;
@@ -268,7 +268,7 @@
             // lblBracketMax
             // 
             this.lblBracketMax.AutoSize = true;
-            this.lblBracketMax.Location = new System.Drawing.Point(390, 35);
+            this.lblBracketMax.Location = new System.Drawing.Point(380, 35);
             this.lblBracketMax.Name = "lblBracketMax";
             this.lblBracketMax.Size = new System.Drawing.Size(119, 20);
             this.lblBracketMax.TabIndex = 3;
@@ -279,7 +279,7 @@
             this.cmbBracketMax.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbBracketMax.Enabled = false;
             this.cmbBracketMax.FormattingEnabled = true;
-            this.cmbBracketMax.Location = new System.Drawing.Point(520, 32);
+            this.cmbBracketMax.Location = new System.Drawing.Point(500, 32);
             this.cmbBracketMax.Name = "cmbBracketMax";
             this.cmbBracketMax.Size = new System.Drawing.Size(100, 28);
             this.cmbBracketMax.TabIndex = 4;
@@ -288,7 +288,7 @@
             // lblBracketEV
             // 
             this.lblBracketEV.AutoSize = true;
-            this.lblBracketEV.Location = new System.Drawing.Point(640, 35);
+            this.lblBracketEV.Location = new System.Drawing.Point(620, 35);
             this.lblBracketEV.Name = "lblBracketEV";
             this.lblBracketEV.Size = new System.Drawing.Size(84, 20);
             this.lblBracketEV.TabIndex = 5;
@@ -297,7 +297,7 @@
             // numBracketEV
             // 
             this.numBracketEV.Enabled = false;
-            this.numBracketEV.Location = new System.Drawing.Point(730, 33);
+            this.numBracketEV.Location = new System.Drawing.Point(710, 33);
             this.numBracketEV.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
             this.numBracketEV.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             this.numBracketEV.Name = "numBracketEV";
@@ -309,7 +309,7 @@
             // lblBracketWait
             // 
             this.lblBracketWait.AutoSize = true;
-            this.lblBracketWait.Location = new System.Drawing.Point(800, 35);
+            this.lblBracketWait.Location = new System.Drawing.Point(780, 35);
             this.lblBracketWait.Name = "lblBracketWait";
             this.lblBracketWait.Size = new System.Drawing.Size(106, 20);
             this.lblBracketWait.TabIndex = 7;
@@ -319,7 +319,7 @@
             // 
             this.numBracketWait.Enabled = false;
             this.numBracketWait.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            this.numBracketWait.Location = new System.Drawing.Point(920, 33);
+            this.numBracketWait.Location = new System.Drawing.Point(890, 33);
             this.numBracketWait.Maximum = new decimal(new int[] { 5000, 0, 0, 0 });
             this.numBracketWait.Name = "numBracketWait";
             this.numBracketWait.Size = new System.Drawing.Size(60, 27);
