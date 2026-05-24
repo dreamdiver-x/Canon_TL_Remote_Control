@@ -19,27 +19,29 @@ namespace EOS_R5_RemoteGUI
         {
             this.btnConnect = new System.Windows.Forms.Button();
             this.lblStatus = new System.Windows.Forms.Label();
-
             this.labelModus = new System.Windows.Forms.Label();
             this.cmbAEMode = new System.Windows.Forms.ComboBox();
-
             this.label1 = new System.Windows.Forms.Label();
             this.cmbIso = new System.Windows.Forms.ComboBox();
-
             this.label2 = new System.Windows.Forms.Label();
             this.cmbTv = new System.Windows.Forms.ComboBox();
-
             this.label3 = new System.Windows.Forms.Label();
             this.cmbDriveMode = new System.Windows.Forms.ComboBox();
-
             this.btnShoot = new System.Windows.Forms.Button();
+
+            // Neue Controls für Timelapse und Log
+            this.btnStartTL = new System.Windows.Forms.Button();
+            this.btnStopTL = new System.Windows.Forms.Button();
+            this.rtbLog = new System.Windows.Forms.RichTextBox();
+            this.labelLog = new System.Windows.Forms.Label();
+
             this.SuspendLayout();
 
             // btnConnect
             this.btnConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.btnConnect.Location = new System.Drawing.Point(25, 25);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(320, 40);
+            this.btnConnect.Size = new System.Drawing.Size(420, 40); // Breite auf 420px angepasst
             this.btnConnect.TabIndex = 0;
             this.btnConnect.Text = "Kamera Verbinden";
             this.btnConnect.UseVisualStyleBackColor = true;
@@ -49,6 +51,7 @@ namespace EOS_R5_RemoteGUI
             this.lblStatus.AutoSize = true;
             this.lblStatus.ForeColor = System.Drawing.Color.DarkBlue;
             this.lblStatus.Location = new System.Drawing.Point(25, 75);
+            this.lblStatus.MaximumSize = new System.Drawing.Size(420, 0); // Verhindert das Hinausragen (automatischer Zeilenumbruch!)
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(262, 16);
             this.lblStatus.TabIndex = 1;
@@ -67,7 +70,7 @@ namespace EOS_R5_RemoteGUI
             this.cmbAEMode.FormattingEnabled = true;
             this.cmbAEMode.Location = new System.Drawing.Point(145, 112);
             this.cmbAEMode.Name = "cmbAEMode";
-            this.cmbAEMode.Size = new System.Drawing.Size(200, 24);
+            this.cmbAEMode.Size = new System.Drawing.Size(300, 24); // Breite auf 300px angepasst
             this.cmbAEMode.TabIndex = 10;
             this.cmbAEMode.SelectedIndexChanged += new System.EventHandler(this.cmbAEMode_SelectedIndexChanged);
 
@@ -84,7 +87,7 @@ namespace EOS_R5_RemoteGUI
             this.cmbIso.FormattingEnabled = true;
             this.cmbIso.Location = new System.Drawing.Point(145, 152);
             this.cmbIso.Name = "cmbIso";
-            this.cmbIso.Size = new System.Drawing.Size(200, 24);
+            this.cmbIso.Size = new System.Drawing.Size(300, 24); // Breite auf 300px angepasst
             this.cmbIso.TabIndex = 3;
             this.cmbIso.SelectedIndexChanged += new System.EventHandler(this.cmbIso_SelectedIndexChanged);
 
@@ -101,7 +104,7 @@ namespace EOS_R5_RemoteGUI
             this.cmbTv.FormattingEnabled = true;
             this.cmbTv.Location = new System.Drawing.Point(145, 192);
             this.cmbTv.Name = "cmbTv";
-            this.cmbTv.Size = new System.Drawing.Size(200, 24);
+            this.cmbTv.Size = new System.Drawing.Size(300, 24); // Breite auf 300px angepasst
             this.cmbTv.TabIndex = 5;
             this.cmbTv.SelectedIndexChanged += new System.EventHandler(this.cmbTv_SelectedIndexChanged);
 
@@ -118,7 +121,7 @@ namespace EOS_R5_RemoteGUI
             this.cmbDriveMode.FormattingEnabled = true;
             this.cmbDriveMode.Location = new System.Drawing.Point(145, 232);
             this.cmbDriveMode.Name = "cmbDriveMode";
-            this.cmbDriveMode.Size = new System.Drawing.Size(200, 24);
+            this.cmbDriveMode.Size = new System.Drawing.Size(300, 24); // Breite auf 300px angepasst
             this.cmbDriveMode.TabIndex = 7;
             this.cmbDriveMode.SelectedIndexChanged += new System.EventHandler(this.cmbDriveMode_SelectedIndexChanged);
 
@@ -127,16 +130,62 @@ namespace EOS_R5_RemoteGUI
             this.btnShoot.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold);
             this.btnShoot.Location = new System.Drawing.Point(25, 285);
             this.btnShoot.Name = "btnShoot";
-            this.btnShoot.Size = new System.Drawing.Size(320, 55);
+            this.btnShoot.Size = new System.Drawing.Size(420, 55); // Breite auf 420px angepasst
             this.btnShoot.TabIndex = 8;
             this.btnShoot.Text = "📸 FOTO AUSLÖSEN";
             this.btnShoot.UseVisualStyleBackColor = false;
             this.btnShoot.Click += new System.EventHandler(this.btnShoot_Click);
 
+            // btnStartTL
+            this.btnStartTL.BackColor = System.Drawing.Color.LightGreen;
+            this.btnStartTL.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnStartTL.Location = new System.Drawing.Point(25, 350);
+            this.btnStartTL.Name = "btnStartTL";
+            this.btnStartTL.Size = new System.Drawing.Size(200, 40); // Breite auf 200px
+            this.btnStartTL.TabIndex = 11;
+            this.btnStartTL.Text = "Start TL";
+            this.btnStartTL.UseVisualStyleBackColor = false;
+            this.btnStartTL.Click += new System.EventHandler(this.btnStartTL_Click);
+
+            // btnStopTL
+            this.btnStopTL.BackColor = System.Drawing.Color.LightCoral;
+            this.btnStopTL.Enabled = false;
+            this.btnStopTL.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.btnStopTL.Location = new System.Drawing.Point(245, 350); // Position angepasst (25 + 200 + 20px Abstand)
+            this.btnStopTL.Name = "btnStopTL";
+            this.btnStopTL.Size = new System.Drawing.Size(200, 40); // Breite auf 200px
+            this.btnStopTL.TabIndex = 12;
+            this.btnStopTL.Text = "Stop TL";
+            this.btnStopTL.UseVisualStyleBackColor = false;
+            this.btnStopTL.Click += new System.EventHandler(this.btnStopTL_Click);
+
+            // labelLog
+            this.labelLog.AutoSize = true;
+            this.labelLog.Location = new System.Drawing.Point(25, 400);
+            this.labelLog.Name = "labelLog";
+            this.labelLog.Size = new System.Drawing.Size(126, 16);
+            this.labelLog.TabIndex = 13;
+            this.labelLog.Text = "Aktivitätsprotokoll:";
+
+            // rtbLog
+            this.rtbLog.BackColor = System.Drawing.SystemColors.Window;
+            this.rtbLog.Location = new System.Drawing.Point(25, 420);
+            this.rtbLog.Name = "rtbLog";
+            this.rtbLog.ReadOnly = true;
+            this.rtbLog.Size = new System.Drawing.Size(420, 150); // Breite auf 420px angepasst
+            this.rtbLog.TabIndex = 14;
+            this.rtbLog.Text = "";
+
             // Form1
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(375, 365);
+            this.ClientSize = new System.Drawing.Size(475, 600); // Fensterbreite von 375 auf 475px vergrößert
+
+            // Hinzufügen der Controls
+            this.Controls.Add(this.rtbLog);
+            this.Controls.Add(this.labelLog);
+            this.Controls.Add(this.btnStopTL);
+            this.Controls.Add(this.btnStartTL);
             this.Controls.Add(this.btnShoot);
             this.Controls.Add(this.cmbDriveMode);
             this.Controls.Add(this.label3);
@@ -148,6 +197,7 @@ namespace EOS_R5_RemoteGUI
             this.Controls.Add(this.labelModus);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.btnConnect);
+
             this.Name = "Form1";
             this.Text = "EOS R5 Remote Control";
             this.ResumeLayout(false);
@@ -167,5 +217,11 @@ namespace EOS_R5_RemoteGUI
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmbDriveMode;
         private System.Windows.Forms.Button btnShoot;
+
+        // Neue UI Variablen
+        private System.Windows.Forms.Button btnStartTL;
+        private System.Windows.Forms.Button btnStopTL;
+        private System.Windows.Forms.RichTextBox rtbLog;
+        private System.Windows.Forms.Label labelLog;
     }
 }

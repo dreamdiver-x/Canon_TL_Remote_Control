@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj": {}
+    "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj": {
+    "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj",
+        "projectUniqueName": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj",
         "projectName": "EOS_R5_RemoteGUI",
-        "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj",
+        "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\EOS_R5_RemoteGUI.csproj",
         "packagesPath": "C:\\Users\\flori\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\obj\\",
+        "outputPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\Canon_EOS_R5_Csharp_Project\\EOS_R5_RemoteGUI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net48": {
             "targetAlias": "net48",
             "projectReferences": {
-              "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\EDSDKLib\\EDSDKLib.csproj": {
-                "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\EDSDKLib\\EDSDKLib.csproj"
+              "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\EDSDKLib\\EDSDKLib.csproj": {
+                "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\EDSDKLib\\EDSDKLib.csproj"
               }
             }
           }
@@ -62,11 +62,11 @@
         }
       }
     },
-    "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\EDSDKLib\\EDSDKLib.csproj": {
+    "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\EDSDKLib\\EDSDKLib.csproj": {
       "restore": {
-        "projectUniqueName": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\EDSDKLib\\EDSDKLib.csproj",
+        "projectUniqueName": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\EDSDKLib\\EDSDKLib.csproj",
         "projectName": "EDSDKLib",
-        "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\EDSDKLib\\EDSDKLib.csproj",
+        "projectPath": "C:\\Users\\flori\\OneDrive\\Dokumente\\repo\\Winforms\\EOS_R5_RemoteGUI_Net48\\Canon_TL_Remote_Control\\EDSDKLib\\EDSDKLib.csproj",
         "UsingMicrosoftNETSdk": false,
         "frameworks": {
           "net48": {

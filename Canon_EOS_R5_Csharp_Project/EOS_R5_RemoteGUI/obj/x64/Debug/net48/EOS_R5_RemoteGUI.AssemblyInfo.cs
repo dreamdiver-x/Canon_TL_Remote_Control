@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EOS_R5_RemoteGUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+69edd97f87edbe71405a2c6ae74bae41836d7cfb")]
 [assembly: System.Reflection.AssemblyProductAttribute("EOS_R5_RemoteGUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EOS_R5_RemoteGUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
