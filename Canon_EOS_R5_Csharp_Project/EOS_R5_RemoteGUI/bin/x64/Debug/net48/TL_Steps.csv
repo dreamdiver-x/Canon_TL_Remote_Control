@@ -1,7 +1,7 @@
 # Timelapse Test-Skript (3 Bilder)
 # Optional: Geplante Startzeit (z.B. STARTTIME; 18:30:00)
 # Wenn Du sofort starten willst, lass diese Zeile weg oder mach ein # davor.
-STARTTIME; 11:54:00
+STARTTIME; 17:55:00
 #
 # Spalten: WartezeitVor(ms) ; WartezeitNach(ms) ; ISO ; Belichtungszeit
 # WICHTIG: ISO und Zeit exakt so schreiben, wie sie im Dropdown stehen!

@@ -45,6 +45,7 @@ namespace EOS_R5_RemoteGUI
             {
                 api = new CanonAPI();
                 Log("CanonAPI erfolgreich initialisiert.");
+                RefreshCameraList();
             }
             catch (Exception ex)
             {
@@ -99,7 +100,7 @@ namespace EOS_R5_RemoteGUI
 
             cmbIso.DisplayMember = "Name";
             cmbIso.Items.Add(new SettingItem("Auto", 0x00));
-            cmbIso.Items.Add(new SettingItem("50", 0x40)); // L
+            cmbIso.Items.Add(new SettingItem("50", 0x40));
             cmbIso.Items.Add(new SettingItem("100", 0x48));
             cmbIso.Items.Add(new SettingItem("125", 0x4B));
             cmbIso.Items.Add(new SettingItem("160", 0x4D));
@@ -128,7 +129,7 @@ namespace EOS_R5_RemoteGUI
             cmbIso.Items.Add(new SettingItem("32000", 0x8B));
             cmbIso.Items.Add(new SettingItem("40000", 0x8D));
             cmbIso.Items.Add(new SettingItem("51200", 0x90));
-            cmbIso.Items.Add(new SettingItem("102400", 0x98)); // H
+            cmbIso.Items.Add(new SettingItem("102400", 0x98));
 
             cmbDriveMode.DisplayMember = "Name";
             cmbDriveMode.Items.Add(new SettingItem("Einzelbild", 0x00));
@@ -274,78 +275,136 @@ namespace EOS_R5_RemoteGUI
 
         private void cmbAEMode_SelectedIndexChanged(object sender, EventArgs e) { }
 
+        private void RefreshCameraList()
+        {
+            if (api == null) return;
+            try
+            {
+                List<Camera> camList = api.GetCameraList();
+                string selectedName = (cmbCameras.SelectedItem as Camera)?.DeviceName;
+
+                cmbCameras.Items.Clear();
+                cmbCameras.DisplayMember = "DeviceName";
+
+                foreach (Camera cam in camList)
+                {
+                    cmbCameras.Items.Add(cam);
+                }
+
+                bool found = false;
+                if (!string.IsNullOrEmpty(selectedName))
+                {
+                    for (int i = 0; i < cmbCameras.Items.Count; i++)
+                    {
+                        if (((Camera)cmbCameras.Items[i]).DeviceName == selectedName)
+                        {
+                            cmbCameras.SelectedIndex = i;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!found && cmbCameras.Items.Count > 0)
+                {
+                    cmbCameras.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Log("Fehler beim Abrufen der Kameraliste: " + ex.Message);
+            }
+        }
+
+        private void cmbCameras_DropDown(object sender, EventArgs e)
+        {
+            RefreshCameraList();
+        }
+
         // --- 2. DIE VERBINDUNG ---
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            if (isConnected || api != null)
+            if (isConnected || camera != null)
             {
-                Log("Trenne alte Verbindung / Bereinige Treiber...");
+                Log("Trenne aktuelle Verbindung...");
                 btnShoot.Enabled = false;
                 try
                 {
                     if (camera != null) camera.CloseSession();
-                    if (api != null) api.Dispose();
                 }
                 catch { }
 
-                api = null; camera = null; isConnected = false;
+                camera = null;
+                isConnected = false;
                 btnConnect.Text = "Kamera Verbinden";
-                Log("Getrennt. Bereit für Neustart.");
+                cmbCameras.BackColor = System.Drawing.SystemColors.Window; // Hintergrund zurücksetzen
+                Log("Getrennt. Bereit für Neuverbindung.");
+                RefreshCameraList();
                 return;
             }
 
             try
             {
-                Log("Starte Canon-Treiber neu...");
-                api = new CanonAPI();
-                List<Camera> camList = api.GetCameraList();
+                if (api == null) api = new CanonAPI();
 
-                if (camList.Count > 0)
+                if (cmbCameras.SelectedItem == null)
                 {
-                    camera = camList[0];
-                    camera.OpenSession();
-
-                    uint saveToPc = 1; // 1 = Speichern NUR auf SD-Karte!
-                    IntPtr saveToPtr = System.Runtime.InteropServices.Marshal.AllocHGlobal(sizeof(uint));
-                    try
+                    RefreshCameraList();
+                    if (cmbCameras.SelectedItem == null)
                     {
-                        System.Runtime.InteropServices.Marshal.WriteInt32(saveToPtr, (int)saveToPc);
-                        uint err = (uint)CanonSDK.EdsSetPropertyData(camera.Reference, (PropertyID)0x0000000B, 0, sizeof(uint), saveToPtr);
-                        if (err == 0x8D)
-                        {
-                            Log("Fehler: Kamera ist beschäftigt. (0x8D)");
-                            camera.CloseSession();
-                            return;
-                        }
+                        Log("Keine Kamera im Dropdown ausgewählt oder gefunden. Ist sie eingeschaltet?");
+                        cmbCameras.BackColor = System.Drawing.SystemColors.Window;
+                        return;
                     }
-                    finally { System.Runtime.InteropServices.Marshal.FreeHGlobal(saveToPtr); }
-
-                    CanonSDK.EdsSendStatusCommand(camera.Reference, (CameraStatusCommand)1, 0);
-
-                    try
-                    {
-                        uint currentMode = (uint)camera.GetInt32Setting((PropertyID)0x00000400);
-                        SelectDropdownItemByHex(cmbAEMode, currentMode);
-                        UpdateTvDropdown(currentMode);
-                    }
-                    catch { Log("Modus konnte nicht ausgelesen werden."); }
-
-                    isConnected = true;
-                    btnConnect.Text = "Kamera Trennen / Reconnect";
-                    Log($"{camera.DeviceName} erfolgreich verbunden und bereit!");
-
-                    btnShoot.Enabled = true;
-                    cmbIso.Enabled = true;
-                    cmbTv.Enabled = true;
-                    cmbDriveMode.Enabled = true;
                 }
-                else
+
+                camera = (Camera)cmbCameras.SelectedItem;
+                Log($"Verbinde mit {camera.DeviceName}...");
+                camera.OpenSession();
+
+                uint saveToPc = 1;
+                IntPtr saveToPtr = System.Runtime.InteropServices.Marshal.AllocHGlobal(sizeof(uint));
+                try
                 {
-                    Log("Keine Kamera gefunden.");
-                    if (api != null) api.Dispose(); api = null;
+                    System.Runtime.InteropServices.Marshal.WriteInt32(saveToPtr, (int)saveToPc);
+                    uint err = (uint)CanonSDK.EdsSetPropertyData(camera.Reference, (PropertyID)0x0000000B, 0, sizeof(uint), saveToPtr);
+                    if (err == 0x8D)
+                    {
+                        Log("Fehler: Kamera ist beschäftigt. (0x8D)");
+                        camera.CloseSession();
+                        camera = null;
+                        cmbCameras.BackColor = System.Drawing.SystemColors.Window;
+                        return;
+                    }
                 }
+                finally { System.Runtime.InteropServices.Marshal.FreeHGlobal(saveToPtr); }
+
+                CanonSDK.EdsSendStatusCommand(camera.Reference, (CameraStatusCommand)1, 0);
+
+                try
+                {
+                    uint currentMode = (uint)camera.GetInt32Setting((PropertyID)0x00000400);
+                    SelectDropdownItemByHex(cmbAEMode, currentMode);
+                    UpdateTvDropdown(currentMode);
+                }
+                catch { Log("Modus konnte nicht ausgelesen werden."); }
+
+                isConnected = true;
+                btnConnect.Text = "Kamera Trennen";
+                cmbCameras.BackColor = System.Drawing.Color.LightGreen; // Grün einfärben bei Erfolg
+                Log($"{camera.DeviceName} erfolgreich verbunden und bereit!");
+
+                btnShoot.Enabled = true;
+                cmbIso.Enabled = true;
+                cmbTv.Enabled = true;
+                cmbDriveMode.Enabled = true;
             }
-            catch (Exception ex) { Log("Verbindungsfehler: " + ex.Message); }
+            catch (Exception ex)
+            {
+                Log("Verbindungsfehler: " + ex.Message);
+                camera = null;
+                cmbCameras.BackColor = System.Drawing.SystemColors.Window; // Auf Fehler zurücksetzen
+            }
         }
 
         // --- 3. KAMERAEINSTELLUNGEN ÄNDERN (Manuell per Klick) ---
@@ -449,10 +508,7 @@ namespace EOS_R5_RemoteGUI
                     Log("Klartext-Beispiel-CSV (inkl. STARTTIME) wurde erstellt: " + path);
                 }
             }
-            catch (Exception ex)
-            {
-                Log("Konnte Klartext-Beispiel-CSV nicht erstellen: " + ex.Message);
-            }
+            catch (Exception ex) { Log("Konnte Klartext-Beispiel-CSV nicht erstellen: " + ex.Message); }
         }
 
         private void ApplyTimelapseSettings(uint isoHex, uint tvHex)
@@ -462,20 +518,14 @@ namespace EOS_R5_RemoteGUI
             {
                 if (camera != null)
                 {
-                    try { camera.SetSetting((PropertyID)0x00000402, isoHex); }
-                    catch (Exception ex) { Log($"Kamera-Fehler bei ISO-Update: {ex.Message}"); }
-
-                    try { camera.SetSetting((PropertyID)0x00000406, tvHex); }
-                    catch (Exception ex) { Log($"Kamera-Fehler bei Tv-Update: {ex.Message}"); }
+                    try { camera.SetSetting((PropertyID)0x00000402, isoHex); } catch (Exception ex) { Log($"Kamera-Fehler bei ISO-Update: {ex.Message}"); }
+                    try { camera.SetSetting((PropertyID)0x00000406, tvHex); } catch (Exception ex) { Log($"Kamera-Fehler bei Tv-Update: {ex.Message}"); }
                 }
 
                 SelectDropdownItemByHex(cmbIso, isoHex);
                 SelectDropdownItemByHex(cmbTv, tvHex);
             }
-            finally
-            {
-                isUpdatingUI = false;
-            }
+            finally { isUpdatingUI = false; }
         }
 
         private async void btnStartTL_Click(object sender, EventArgs e)
@@ -504,51 +554,34 @@ namespace EOS_R5_RemoteGUI
                 await RunTimelapseAsync(script, tlCts.Token);
                 Log("Timelapse vollständig abgeschlossen.");
             }
-            catch (TaskCanceledException)
-            {
-                Log("Timelapse wurde manuell gestoppt.");
-            }
-            catch (Exception ex)
-            {
-                Log($"Kritischer Fehler in der Timelapse-Schleife: {ex.Message}");
-            }
+            catch (TaskCanceledException) { Log("Timelapse wurde manuell gestoppt."); }
+            catch (Exception ex) { Log($"Kritischer Fehler in der Timelapse-Schleife: {ex.Message}"); }
             finally
             {
-                tlCts?.Dispose();
-                tlCts = null;
-                btnStartTL.Enabled = true;
-                btnStopTL.Enabled = false;
+                tlCts?.Dispose(); tlCts = null;
+                btnStartTL.Enabled = true; btnStopTL.Enabled = false;
             }
         }
 
         private void btnStopTL_Click(object sender, EventArgs e)
         {
-            if (tlCts != null)
-            {
-                Log("Stoppe Timelapse...");
-                tlCts.Cancel();
-            }
+            if (tlCts != null) { Log("Stoppe Timelapse..."); tlCts.Cancel(); }
         }
 
         private async Task RunTimelapseAsync(TLScript script, CancellationToken token)
         {
-            // --- NEU: Warten auf geplante Startzeit ---
             if (script.StartTime.HasValue)
             {
                 TimeSpan waitTime = script.StartTime.Value - DateTime.Now;
                 if (waitTime.TotalMilliseconds > 0)
                 {
                     Log($"⏳ Geplanter Start aktiviert. Warte bis {script.StartTime.Value:dd.MM.yyyy HH:mm:ss} Uhr...");
-                    await Task.Delay(waitTime, token); // Blockiert nicht das UI, wartet auf die Sekunde genau
+                    await Task.Delay(waitTime, token);
                     Log("🚀 Geplante Startzeit erreicht! Beginne mit dem Timelapse...");
                 }
-                else
-                {
-                    Log("⚠️ Startzeit liegt in der Vergangenheit. Timelapse startet sofort.");
-                }
+                else { Log("⚠️ Startzeit liegt in der Vergangenheit. Timelapse startet sofort."); }
             }
 
-            // --- Normale Timelapse Schleife ---
             for (int i = 0; i < script.Steps.Count; i++)
             {
                 token.ThrowIfCancellationRequested();
@@ -562,14 +595,8 @@ namespace EOS_R5_RemoteGUI
 
                 Log($"TL {i + 1}: Passe Parameter an -> ISO: {step.IsoName}, Tv: {step.TvName}");
 
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new Action(() => ApplyTimelapseSettings(step.IsoHex, step.TvHex)));
-                }
-                else
-                {
-                    ApplyTimelapseSettings(step.IsoHex, step.TvHex);
-                }
+                if (this.InvokeRequired) this.Invoke(new Action(() => ApplyTimelapseSettings(step.IsoHex, step.TvHex)));
+                else ApplyTimelapseSettings(step.IsoHex, step.TvHex);
 
                 await Task.Delay(400, token);
 
@@ -597,46 +624,36 @@ namespace EOS_R5_RemoteGUI
 
                 var parts = line.Split(';');
 
-                // NEU: Abfangen der Startzeit
                 if (parts[0].Trim().Equals("STARTTIME", StringComparison.OrdinalIgnoreCase))
                 {
                     if (parts.Length > 1 && DateTime.TryParse(parts[1].Trim(), out DateTime parsedTime))
                     {
-                        // Wenn der User nur "15:30:00" eingibt und die Uhrzeit heute schon rum ist, nimm morgen
-                        if (parsedTime < DateTime.Now && !parts[1].Contains("."))
-                        {
-                            parsedTime = parsedTime.AddDays(1);
-                        }
+                        if (parsedTime < DateTime.Now && !parts[1].Contains(".")) parsedTime = parsedTime.AddDays(1);
                         script.StartTime = parsedTime;
                         Log($"Zeile {lineNum}: Geplante Startzeit erkannt ({script.StartTime.Value:dd.MM.yyyy HH:mm:ss})");
                     }
-                    else
-                    {
-                        Log($"Zeile {lineNum}: Ungültiges Startzeit-Format. Bitte z.B. 18:30:00 nutzen. Wird ignoriert.");
-                    }
-                    continue; // Diese Zeile war nur für die Zeit, überspringe den restlichen Bild-Code
+                    else { Log($"Zeile {lineNum}: Ungültiges Startzeit-Format. Wird ignoriert."); }
+                    continue;
                 }
 
                 if (parts.Length >= 4)
                 {
                     try
                     {
-                        var step = new TLStep();
-                        step.WartezeitVorMs = int.Parse(parts[0].Trim());
-                        step.IntervallNachMs = int.Parse(parts[1].Trim());
-
-                        step.IsoName = parts[2].Trim();
-                        step.TvName = parts[3].Trim();
+                        var step = new TLStep
+                        {
+                            WartezeitVorMs = int.Parse(parts[0].Trim()),
+                            IntervallNachMs = int.Parse(parts[1].Trim()),
+                            IsoName = parts[2].Trim(),
+                            TvName = parts[3].Trim()
+                        };
 
                         step.IsoHex = GetHexFromName(cmbIso, step.IsoName);
                         step.TvHex = GetHexFromName(cmbTv, step.TvName);
 
                         script.Steps.Add(step);
                     }
-                    catch (Exception ex)
-                    {
-                        Log($"Fehler in Zeile {lineNum} ('{line}'): {ex.Message}");
-                    }
+                    catch (Exception ex) { Log($"Fehler in Zeile {lineNum} ('{line}'): {ex.Message}"); }
                 }
             }
             return script;
@@ -645,16 +662,10 @@ namespace EOS_R5_RemoteGUI
         private uint GetHexFromName(ComboBox cmb, string name)
         {
             foreach (SettingItem item in cmb.Items)
-            {
-                if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                {
-                    return item.HexValue;
-                }
-            }
+                if (item.Name.Equals(name, StringComparison.OrdinalIgnoreCase)) return item.HexValue;
             throw new Exception($"Der Wert '{name}' existiert nicht in der Dropdown-Auswahl.");
         }
 
-        // --- 6. AUFRÄUMEN BEIM BEENDEN ---
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             Log("Programm wird geschlossen. Räume auf...");
@@ -692,7 +703,6 @@ namespace EOS_R5_RemoteGUI
         public uint TvHex { get; set; }
     }
 
-    // NEU: Hält sowohl die geplanten Bilder als auch die Startzeit
     public class TLScript
     {
         public DateTime? StartTime { get; set; }

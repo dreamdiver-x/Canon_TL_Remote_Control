@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TL_CSV_Configurator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+214fbbddd1ad306c4220e88f515dcf8afd171a83")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f993e498b08b2d992e46ccbe70d0c6a5e9c11a86")]
 [assembly: System.Reflection.AssemblyProductAttribute("TL_CSV_Configurator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TL_CSV_Configurator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
